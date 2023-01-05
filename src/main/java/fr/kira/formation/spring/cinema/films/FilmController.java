@@ -194,7 +194,7 @@ public class FilmController {
     // exemple : GET /films?date=2022-01-01
     @GetMapping("/films")
     public List<Film> getFilms(@RequestParam("date") String date) {
-        List<Film> films = this.service.getFilmsByDate(date);
+        List<Film> films = this.service.findByDate(date);
 
         return films;
     }

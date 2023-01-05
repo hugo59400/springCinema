@@ -51,12 +51,6 @@ public class TicketController {
 
 
 
-        // afficher la liste des tickets réservés pour une séance donnée
-    // http://localhost:8080/tickets?seanceId=1
-        @GetMapping("/tickets")
-        public String getReservedTickets(@RequestParam("seanceId") Integer seanceId) {
-            List<Ticket> tickets = service.getReservedTickets(seanceId);
-            return tickets.toString();
-        }
+
 
 }

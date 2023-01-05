@@ -34,10 +34,7 @@ private final SeanceRepository seanceRepository;
         return repository.findAll();
     }
 
-// afficher la liste des tickets réservés pour une séance donnée
-public List<Ticket> getReservedTickets(Integer seanceId) {
-    return repository.findBySeanceId(seanceId);
-}
+
 
 
 // ci dessous new methode save avec la logique : Réserver des tickets pour une séance donnée

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sceances")
@@ -18,7 +19,7 @@ public class Seance {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     private int nombrePlace;
 

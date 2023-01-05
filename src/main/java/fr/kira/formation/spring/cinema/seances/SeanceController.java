@@ -1,5 +1,8 @@
 package fr.kira.formation.spring.cinema.seances;
 
+import fr.kira.formation.spring.cinema.films.Film;
+import fr.kira.formation.spring.cinema.salles.Salle;
+import fr.kira.formation.spring.cinema.tickets.Ticket;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +45,33 @@ public class SeanceController {
     public List<Seance> getSeances(@RequestParam("date") String date,
                                 @RequestParam("time") String time
                                 ) {
-        List<Seance> seances = SeanceService.getAvailableSeances(date, time);
+     //   List<Seance> seances = SeanceService.getAvailableSeances(date, time);
 
-        return seances;
+     //  return seances;
 
+       return null;
+    }
+
+    @GetMapping("{id}/ticket")
+    public List<Ticket> findTicketSeance(@PathVariable Integer id){
+        return this.service.findTicketSeance(id);
+    }
+
+
+
+    @PostMapping("{id}/films")
+    public void addFilm(@PathVariable Integer id, @RequestBody Film film){
+        this.service.addFilm(id, film);
+    }
+
+    @PostMapping("{id}/films/{idFilm}")
+    public void addFilmById(@PathVariable Integer id, @PathVariable Integer idFilm){
+        this.service.addFilmById(id, idFilm);
+    }
+
+    @PostMapping("{id}/salles")
+    public void addSalle(@PathVariable Integer id, @RequestBody Salle salle){
+        this.service.addSalle(id, salle);
     }
 
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,12 +175,17 @@ public class FilmService {
 
     // Afficher la liste des films disponibles à une date donnée
     public List<Film> findByDate(String date) {
-        List<Seance> seances = seanceRepository.findByDateAndTime(LocalDate.parse(date));
+        List<Seance> seances = seanceRepository.findByDate(LocalDate.parse(date));
         List<Film> films = new ArrayList<>();
         for (Seance seance : seances) {
             films.add(seance.getFilm());
         }
         return films;
+    }
+
+
+    public Film findOrInsert(Film film){
+        return this.jpaRepository.findById(film.getId()).orElseGet(()->this.jpaRepository.save(film));
     }
 
 }
