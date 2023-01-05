@@ -35,7 +35,7 @@ public class SeanceService {
 
 
     // Afficher la liste des salles disponibles à une date et à une heure donnée
-    public  List<Seance> getAvailableScreenings(String date, String time) {
+    public  List<Seance> getAvailableSeances(String date, String time) {
         return repository.findByDateAndTime(date, time);
     }
 

@@ -3,13 +3,15 @@ package fr.kira.formation.spring.cinema.films;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.kira.formation.spring.cinema.acteurs.Acteur;
 import fr.kira.formation.spring.cinema.acteurs.ActeurService;
-import fr.kira.formation.spring.cinema.films.dto.FilmCompletDto;
-import fr.kira.formation.spring.cinema.films.dto.FilmReduitDto;
 import fr.kira.formation.spring.cinema.realisateurs.Realisateur;
+import fr.kira.formation.spring.cinema.seances.Seance;
+import fr.kira.formation.spring.cinema.seances.SeanceRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +29,8 @@ public class FilmService {
      * C'est grâce à lui que l'on peut accéder à la base de données.
      */
     private final FilmJpaRepository jpaRepository;
+    private final SeanceRepository seanceRepository;
+
 
     /**
      * Le service pour les acteurs. <br>
@@ -43,12 +47,15 @@ public class FilmService {
 
     /**
      * Constructeur du service pour les films.
-     * @param jpaRepository le repository pour les films.
-     * @param acteurService le service pour les acteurs.
-     * @param mapper le mapper pour les films.
+     *
+     * @param jpaRepository    le repository pour les films.
+     * @param seanceRepository
+     * @param acteurService    le service pour les acteurs.
+     * @param mapper           le mapper pour les films.
      */
-    public FilmService(FilmJpaRepository jpaRepository, ActeurService acteurService, ObjectMapper mapper) {
+    public FilmService(FilmJpaRepository jpaRepository, SeanceRepository seanceRepository, ActeurService acteurService, ObjectMapper mapper) {
         this.jpaRepository = jpaRepository;
+        this.seanceRepository = seanceRepository;
         this.acteurService = acteurService;
         this.mapper = mapper;
     }
@@ -166,9 +173,13 @@ public class FilmService {
 
 
     // Afficher la liste des films disponibles à une date donnée
-    public List<Film> getFilmsByDate(String date) {
-        return jpaRepository.findByDate(date);
+    public List<Film> findByDate(String date) {
+        List<Seance> seances = seanceRepository.findByDateAndTime(LocalDate.parse(date));
+        List<Film> films = new ArrayList<>();
+        for (Seance seance : seances) {
+            films.add(seance.getFilm());
+        }
+        return films;
     }
-
 
 }

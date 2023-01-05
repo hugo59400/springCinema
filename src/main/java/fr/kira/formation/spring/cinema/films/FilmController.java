@@ -191,11 +191,12 @@ public class FilmController {
     }
 
 // Afficher la liste des films disponibles à une date donnée
+    // exemple : GET /films?date=2022-01-01
     @GetMapping("/films")
-    public String getFilms(@RequestParam("date") String date) {
+    public List<Film> getFilms(@RequestParam("date") String date) {
         List<Film> films = this.service.getFilmsByDate(date);
 
-        return films.toString();
+        return films;
     }
 
 }

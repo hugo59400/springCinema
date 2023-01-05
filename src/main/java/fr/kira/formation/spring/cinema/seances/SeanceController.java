@@ -37,14 +37,15 @@ public class SeanceController {
 
 
     // Afficher la liste des salles disponibles à une date et à une heure données
+    // http://localhost:8080/seances?date=2022-01-01&time=20:00
     @GetMapping("/seances")
-    public String getScreenings(@RequestParam("date") String date,
+    public List<Seance> getSeances(@RequestParam("date") String date,
                                 @RequestParam("time") String time
                                 ) {
-     //   List<Seance> seances = SeanceService.getAvailableScreenings(date, time);
+        List<Seance> seances = SeanceService.getAvailableSeances(date, time);
 
-       // return seances.toString();
-        return date;
+        return seances;
+
     }
 
 

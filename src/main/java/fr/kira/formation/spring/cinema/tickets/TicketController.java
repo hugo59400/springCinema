@@ -1,5 +1,6 @@
 package fr.kira.formation.spring.cinema.tickets;
 
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,11 +23,12 @@ public class TicketController {
 
 
         // Réserver des tickets pour une séance donnée
+    // http://localhost:8080/tickets?seanceId=1&capacite=20
         @PostMapping("/tickets")
-        public Ticket save(@RequestParam("seanceId") Long seanceId,
+        public Ticket save(@RequestParam("seanceId") Integer seanceId,
                            @RequestParam("capacite") Integer capacite,
                            @RequestBody Ticket entity) {
-            return service.save(Math.toIntExact(seanceId), capacite, entity);
+            return service.save(entity);
         }
 
 
@@ -50,9 +52,10 @@ public class TicketController {
 
 
         // afficher la liste des tickets réservés pour une séance donnée
+    // http://localhost:8080/tickets?seanceId=1
         @GetMapping("/tickets")
-        public String getReservedTickets(@RequestParam("seanceId") Long screeningId) {
-            List<Ticket> tickets = service.getReservedTickets(screeningId);
+        public String getReservedTickets(@RequestParam("seanceId") Integer seanceId) {
+            List<Ticket> tickets = service.getReservedTickets(seanceId);
             return tickets.toString();
         }
 

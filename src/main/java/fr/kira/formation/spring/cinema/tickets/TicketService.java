@@ -1,6 +1,7 @@
 package fr.kira.formation.spring.cinema.tickets;
 
 import fr.kira.formation.spring.cinema.seances.Seance;
+import fr.kira.formation.spring.cinema.seances.SeanceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,14 +10,17 @@ import java.util.List;
 public class TicketService {
 
     private final TicketRepository repository;
-
-    public TicketService(TicketRepository repository) {
+private final SeanceRepository seanceRepository;
+    public TicketService(TicketRepository repository, SeanceRepository seanceRepository) {
         this.repository = repository;
+        this.seanceRepository = seanceRepository;
     }
 
-    public Ticket save(Ticket entity) {
-        return repository.save(entity);
-    }
+    // ci dessous old save
+
+//    public Ticket save(Ticket entity) {
+//        return repository.save(entity);
+//    }
 
     public Ticket findById(Integer integer) {
         return repository.findById(integer).orElseThrow();
@@ -31,30 +35,18 @@ public class TicketService {
     }
 
 // afficher la liste des tickets réservés pour une séance donnée
-public List<Ticket> getReservedTickets(Long screeningId) {
-    return repository.findBySeanceId(screeningId);
+public List<Ticket> getReservedTickets(Integer seanceId) {
+    return repository.findBySeanceId(seanceId);
 }
 
-    public Ticket save(Integer seanceId, Integer quantity, Ticket entity) {
-        // Récupérez la séance à partir de l'ID de la séance
-        Seance seance = repository.findById(seanceId).orElse(null).getSeance();
 
-        // Vérifiez que la séance existe et qu'il reste suffisamment de places
-        if (seance == null || seance.getNombrePlace() < quantity) {
-            throw new IllegalArgumentException("Invalid seance or not enough seats available");
-        }
-
-        // Réduisez la capacité de la séance de la quantité de tickets réservés
-        seance.setNombrePlace(seance.getNombrePlace() - quantity);
-        repository.save(seance);
-
-        // Enregistrez le ticket
-        entity.setSeance(seance);
-        return repository.save(entity);
-    }
-
-
-//
+// ci dessous new methode save avec la logique : Réserver des tickets pour une séance donnée
+public Ticket save(Ticket ticket){
+Seance seance = seanceRepository.findById(ticket.getSeance().getId()).orElseThrow();
+seance.setNombrePlace(seance.getNombrePlace() -ticket.getNombrePlace());
+ticket.setSeance(seance);
+return repository.save(ticket);
+}
 
 
 }

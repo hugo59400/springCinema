@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     // afficher la liste des tickets réservés pour une séance donnée
-    List<Ticket> findBySeanceId(Long seanceId);
+    List<Ticket> findBySeanceId(Integer seanceId);
 
 }
