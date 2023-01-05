@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.kira.formation.spring.cinema.acteurs.Acteur;
 import fr.kira.formation.spring.cinema.films.dto.FilmCompletDto;
 import fr.kira.formation.spring.cinema.films.dto.FilmReduitDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,8 @@ public class FilmController {
 
     private final FilmService service;
     private final ObjectMapper mapper;
+
+    private final Logger logger= LoggerFactory.getLogger(FilmController.class);
 
 
     public FilmController(FilmService service, ObjectMapper mapper) {
@@ -41,6 +46,7 @@ public class FilmController {
     @PostMapping
     public FilmCompletDto save(@RequestBody Film film) {
         Film entity = service.save(film);
+        logger.warn("ok");
         return mapper.convertValue(entity, FilmCompletDto.class);
     }
 
@@ -144,6 +150,8 @@ public class FilmController {
      * @param acteur a ajouter
      */
     @PostMapping("{id}/acteurs")
+    @ResponseStatus(HttpStatus.CREATED)
+
     public void addActeur(@PathVariable Integer id, @RequestBody Acteur acteur){
         this.service.addActeur(id, acteur);
     }
@@ -180,6 +188,14 @@ public class FilmController {
     @DeleteMapping("{id}/realisateurs/{idRealisateur}")
     public void deleteRealisateur(@PathVariable Integer id, @PathVariable Integer idRealisateur){
         this.service.deleteRealisateurById(id, idRealisateur);
+    }
+
+// Afficher la liste des films disponibles à une date donnée
+    @GetMapping("/films")
+    public String getFilms(@RequestParam("date") String date) {
+        List<Film> films = this.service.getFilmsByDate(date);
+
+        return films.toString();
     }
 
 }

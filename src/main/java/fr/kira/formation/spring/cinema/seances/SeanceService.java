@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class SeanceService {
 
-    private final SeanceRepository repository;
+    private  final SeanceRepository repository;
 
 
     public SeanceService(SeanceRepository repository) {
@@ -32,6 +32,14 @@ public class SeanceService {
     public void deleteById(Integer integer) {
         repository.deleteById(integer);
     }
+
+
+    // Afficher la liste des salles disponibles à une date et à une heure donnée
+    public  List<Seance> getAvailableScreenings(String date, String time) {
+        return repository.findByDateAndTime(date, time);
+    }
+
+
 
 
 }

@@ -163,4 +163,12 @@ public class FilmService {
         film.getRealisateurs().add(realisateur);
         jpaRepository.save(film);
     }
+
+
+    // Afficher la liste des films disponibles à une date donnée
+    public List<Film> getFilmsByDate(String date) {
+        return jpaRepository.findByDate(date);
+    }
+
+
 }

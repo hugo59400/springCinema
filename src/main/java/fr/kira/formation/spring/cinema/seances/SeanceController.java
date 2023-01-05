@@ -36,4 +36,16 @@ public class SeanceController {
     }
 
 
+    // Afficher la liste des salles disponibles à une date et à une heure données
+    @GetMapping("/seances")
+    public String getScreenings(@RequestParam("date") String date,
+                                @RequestParam("time") String time
+                                ) {
+     //   List<Seance> seances = SeanceService.getAvailableScreenings(date, time);
+
+       // return seances.toString();
+        return date;
+    }
+
+
 }

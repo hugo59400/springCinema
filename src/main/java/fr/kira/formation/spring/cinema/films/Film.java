@@ -40,7 +40,7 @@ public class Film {
     private String titre;
 
     @Column(name="date_sortie")
-    private LocalDate dateSortie;
+        private LocalDate dateSortie;
 
     private int duree;
 
